@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+.Doughnut{
+  width:130px;
+  height:130px;
+  position:relative;
+  flex-shrink:0;
+}
+.region_bar{
+  background: linear-gradient(90deg, #99f6e4, #2dd4bf);
+}
+.dashboard-wrapper {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.kpi-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(45, 212, 191, 0.15);
+    transform: translateY(-1px);
+  }
+}
+
+.chart-card {
+  transition: box-shadow 0.2s ease;
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* // PrimeNG chart overrides */
+::ng-deep {
+  .p-chart {
+    width: 100% !important;
+    height: 100% !important;
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+}
+::ng-deep .chart-card canvas {
+  position: relative !important;
+  z-index: 0 !important;
+}
+

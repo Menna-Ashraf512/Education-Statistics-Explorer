@@ -1,0 +1,47 @@
+<div class="flex items-center justify-between fixed top-0 w-full
+            z-50
+            bg-white border border-slate-100 shadow-sm px-5 py-3 rounded-b-2xl gap-4">
+
+  <!-- Left: Logo + Title -->
+  <div class="flex items-center gap-3">
+    <div class="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+      <img src="images/logo.png" alt="logo" class="h-7 w-7 object-contain">
+    </div>
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-800 leading-tight">
+        Education Statistics Explorer
+      </h1>
+      <p class="text-sm text-[#94a3b8] mt-0.5">
+        Saudi General Education Analytics · 2016 – 2024
+      </p>
+    </div>
+  </div>
+
+  <!-- Right: Filters -->
+  <div class="flex items-center gap-3">
+
+    <div class="w-px h-7 bg-slate-200"></div>
+
+    <p-cascadeselect
+      [(ngModel)]="selectedYear"
+      [options]="years"
+      placeholder="Select Year"
+      (ngModelChange)="filterService.setYear($event)"
+      styleClass="w-40 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
+    </p-cascadeselect>
+
+    <p-cascadeselect
+      [(ngModel)]="selectedRegion"
+      [options]="regions"
+      optionLabel="label"
+      placeholder="Select Region"
+      (ngModelChange)="filterService.setRegion($event.value)"
+      styleClass="w-44 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
+      <ng-template let-option pTemplate="option">{{ option.label | translate }}</ng-template>
+      <ng-template let-group  pTemplate="group">{{ group.label | translate }}</ng-template>
+      <ng-template let-selected pTemplate="value">
+        {{ selected ? (selected.label | translate) : 'Select Region' }}
+      </ng-template>
+    </p-cascadeselect>
+  </div>
+</div>
