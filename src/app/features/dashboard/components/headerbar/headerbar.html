@@ -4,17 +4,21 @@
 
   <!-- Left: Logo + Title -->
   <div class="flex items-center gap-3">
+
     <div class="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
       <img src="images/logo.png" alt="logo" class="h-7 w-7 object-contain">
     </div>
+
     <div>
       <h1 class="text-2xl font-semibold text-slate-800 leading-tight">
-        Education Statistics Explorer
+        {{ 'header.title' | translate }}
       </h1>
+
       <p class="text-sm text-[#94a3b8] mt-0.5">
-        Saudi General Education Analytics · 2016 – 2024
+        {{ 'header.subtitle' | translate }}
       </p>
     </div>
+
   </div>
 
   <!-- Right: Filters -->
@@ -22,26 +26,46 @@
 
     <div class="w-px h-7 bg-slate-200"></div>
 
-    <p-cascadeselect
-      [(ngModel)]="selectedYear"
-      [options]="years"
-      placeholder="Select Year"
+    <!-- Year Select -->
+    <p-cascadeselect [(ngModel)]="selectedYear" [options]="years" [placeholder]="'header.selectYear' | translate"
       (ngModelChange)="filterService.setYear($event)"
-      styleClass="w-40 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
+      class="w-40 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
     </p-cascadeselect>
 
-    <p-cascadeselect
-      [(ngModel)]="selectedRegion"
-      [options]="regions"
-      optionLabel="label"
-      placeholder="Select Region"
-      (ngModelChange)="filterService.setRegion($event.value)"
-      styleClass="w-44 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
-      <ng-template let-option pTemplate="option">{{ option.label | translate }}</ng-template>
-      <ng-template let-group  pTemplate="group">{{ group.label | translate }}</ng-template>
-      <ng-template let-selected pTemplate="value">
-        {{ selected ? (selected.label | translate) : 'Select Region' }}
+    <!-- Region Select -->
+    <p-cascadeselect [(ngModel)]="selectedRegion" [options]="regions" optionLabel="label"
+      [placeholder]="'header.selectRegion' | translate" (ngModelChange)="filterService.setRegion($event.value)"
+      class="w-44 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
+
+      <!-- Dropdown Options -->
+      <ng-template let-option pTemplate="option">
+        {{ option.label | translate }}
       </ng-template>
+
+      <!-- Groups -->
+      <ng-template let-group pTemplate="group">
+        {{ group.label | translate }}
+      </ng-template>
+
+      <!-- Selected Value -->
+      <ng-template let-selected pTemplate="value">
+        {{
+        selected
+        ? (selected.label | translate)
+        : ('header.selectRegion' | translate)
+        }}
+      </ng-template>
+
     </p-cascadeselect>
+
+    <!-- Language Toggle -->
+    <button pButton type="button" (click)="toggleLanguage()"
+      class="h-9 px-4 rounded-lg bg-slate-800 text-white text-sm font-medium hover:bg-slate-700 transition">
+
+      {{ currentLang === 'ar' ? 'EN' : 'ع' }}
+
+    </button>
+
   </div>
+
 </div>

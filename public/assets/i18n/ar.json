@@ -1,11 +1,17 @@
 {
+  "header": {
+    "title": "مستكشف إحصائيات التعليم",
+    "subtitle": "تحليلات التعليم العام في السعودية · ٢٠١٦ – ٢٠٢٤",
+    "selectYear": "اختر السنة",
+    "selectRegion": "اختر المنطقة"
+  },
+
   "regions": {
-    "group": "المناطق",
     "baaha": "الباحة",
     "jouf": "الجوف",
     "northern_border": "الحدود الشمالية",
     "riyadh": "الرياض",
-    "eastern": "الشرقية",
+    "eastern": "المنطقة الشرقية",
     "qassim": "القصيم",
     "madinah": "المدينة المنورة",
     "tabuk": "تبوك",
@@ -14,5 +20,33 @@
     "asir": "عسير",
     "makkah": "مكة المكرمة",
     "najran": "نجران"
+  },
+  "dashboard": {
+    "studentTrends": "اتجاهات الطلاب عبر الزمن",
+    "genderTrend": "اتجاه النوع",
+    "male": "ذكور",
+    "female": "إناث",
+    "regionalEnrollment": "توزيع التسجيل حسب المنطقة",
+    "regionGrowthTrend": "اتجاه نمو المناطق",
+    "educationStageDistribution": "توزيع المراحل التعليمية",
+    "drillDown": "تفاصيل المنطقة",
+    "drillDescription": "مقارنة بين السنة الحالية والسنة السابقة لكل مرحلة تعليمية",
+    "totalStudents": "إجمالي الطلاب",
+    "previousYear": "السنة السابقة",
+    "yoyGrowth": "النمو السنوي",
+    "stage": "المرحلة",
+    "current": "الحالي",
+    "previous": "السابق",
+    "trend": "الاتجاه",
+    "genderDistribution": "توزيع النوع",
+    "generalDistribution": "التوزيع العام",
+    "primary": "ابتدائي",
+    "intermediate": "متوسط",
+    "secondary": "ثانوي",
+    "growthRate": "معدل النمو",
+    "femaleStudents": "الطالبات",
+    "maleStudents": "الطلاب",
+    "largestRegion": "أكبر منطقة"
   }
+
 }

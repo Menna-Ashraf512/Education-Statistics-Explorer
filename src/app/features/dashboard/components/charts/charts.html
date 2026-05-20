@@ -13,7 +13,7 @@
       </div>
 
       <div class="min-w-0">
-        <p class="text-xs text-slate-400 font-medium mb-0.5 truncate">{{ kpi.label }}</p>
+        <p class="text-xs text-slate-400 font-medium mb-0.5 truncate">{{ kpi.label |translate}}</p>
         <p [class]="'text-xl font-bold tracking-tight ' + (kpi.highlight ? 'text-green-500' : 'text-slate-800')">
           {{ kpi.value }}
         </p>
@@ -40,7 +40,9 @@
         <!-- Student Trends Over Time -->
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">Student Trends Over Time</h3>
+            <h3 class="text-sm font-semibold text-slate-700">
+              {{ 'dashboard.studentTrends' | translate }}
+            </h3>
           </div>
           <div>
             <p-chart type="line" [data]="trendData" [options]="trendOptions" />
@@ -50,13 +52,15 @@
         <!-- Gender Trend -->
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">Gender Trend</h3>
+            <h3 class="text-sm font-semibold text-slate-700">
+              {{ 'dashboard.genderTrend' | translate }}
+            </h3>
             <div class="flex gap-3">
               <span class="flex items-center gap-1 text-[10px] text-slate-500">
-                <span class="w-2 h-2 rounded-full bg-blue-300 inline-block"></span>Male
+                <span class="w-2 h-2 rounded-full bg-blue-300 inline-block"></span>{{ 'dashboard.male' | translate }}
               </span>
               <span class="flex items-center gap-1 text-[10px] text-slate-500">
-                <span class="w-2 h-2 rounded-full bg-pink-300 inline-block"></span>Female
+                <span class="w-2 h-2 rounded-full bg-pink-300 inline-block"></span>{{ 'dashboard.female' | translate }}
               </span>
             </div>
           </div>
@@ -74,7 +78,7 @@
         <!-- Regional Enrollment Breakdown (dynamic bars) -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">Regional Enrolment Breakdown</h3>
+            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.regionalEnrollment' | translate }}</h3>
             <div class="flex gap-1">
               <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
                 2016 / 2024
@@ -105,7 +109,7 @@
         <!-- Region Growth Trend -->
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">Region Growth Trend</h3>
+            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.regionGrowthTrend' | translate }}</h3>
             <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
               2016 / 2024
             </span>
@@ -123,7 +127,7 @@
         <!-- Education Stage Distribution -->
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">Education Stage Distribution</h3>
+            <h3 class="text-sm font-semibold text-slate-700">{{'dashboard.educationStageDistribution'|translate}}</h3>
             <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
               2016 – 2024
             </span>
@@ -138,32 +142,32 @@
 
           <!-- Header -->
           <h3 class="text-sm font-semibold text-slate-700 mb-1">
-            📍 Drill Down: {{ drillDown.regionName }}
+            📍 {{ 'dashboard.drillDown' | translate }}: {{ drillDown.regionName }}
           </h3>
 
           <p class="text-[10px] text-slate-400 mb-3">
-            مقارنة بين السنة الحالية والسنة السابقة لكل مرحلة تعليمية
+            {{ 'dashboard.drillDescription' | translate }}
           </p>
 
           <!-- Summary -->
           <div class="grid grid-cols-3 gap-3 mb-4">
 
             <div class="bg-slate-50 rounded-lg p-2">
-              <p class="text-[10px] text-slate-400">Total Students</p>
+              <p class="text-[10px] text-slate-400">{{ 'dashboard.totalStudents' | translate }}</p>
               <p class="text-base font-bold text-slate-800">
                 {{ formatNum(drillDown.total) }}
               </p>
             </div>
 
             <div class="bg-slate-50 rounded-lg p-2">
-              <p class="text-[10px] text-slate-400">Previous Year</p>
+              <p class="text-[10px] text-slate-400">{{ 'dashboard.previousYear' | translate }}</p>
               <p class="text-base font-semibold text-slate-600">
                 {{ formatNum(drillDown.previousTotal) }}
               </p>
             </div>
 
             <div class="bg-green-50 rounded-lg p-2">
-              <p class="text-[10px] text-green-600 font-semibold">YoY Growth</p>
+              <p class="text-[10px] text-green-600 font-semibold">{{ 'dashboard.yoyGrowth' | translate }}</p>
               <p class="text-base font-bold text-green-600">
                 {{ drillDown.growthPct }}
               </p>
@@ -173,10 +177,10 @@
 
           <!-- Table header (clarity layer) -->
           <div class="grid grid-cols-4 text-[10px] text-slate-400 mb-1 px-1">
-            <div>Stage</div>
-            <div class="text-center">Current</div>
-            <div class="text-center">Previous</div>
-            <div class="text-right">Trend</div>
+            <div>{{ 'dashboard.stage' | translate }}</div>
+            <div class="text-center">{{ 'dashboard.current' | translate }}</div>
+            <div class="text-center">{{ 'dashboard.previous' | translate }}</div>
+            <div class="text-right">{{ 'dashboard.trend' | translate }}</div>
           </div>
 
           <!-- Rows -->
@@ -252,7 +256,7 @@
       <!-- Gender Distribution ────────────────────────────────────────────── -->
       <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-slate-700">Gender Distribution</h3>
+          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.genderDistribution' | translate }}</h3>
           <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
             {{ activeYear ? `Year ${this.activeYear}` : '2016 – 2024 All Years' }}
           </span>
@@ -263,7 +267,7 @@
           <!-- Doughnut -->
           <div class="Doughnut">
             <p-chart type="doughnut" [data]="genderDoughnutData" [options]="genderDoughnutOptions" [width]="'130px'"
-              [height]="'130px'" styleClass="w-full h-full" />
+              [height]="'130px'" class="w-full h-full" />
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <span class="text-[10px] text-slate-400">
                 {{ activeYear ? `Year ${activeYear}` : 'All Years' }}
@@ -276,14 +280,14 @@
             <div class="flex items-center gap-2">
               <span class="w-3 h-3 rounded-full bg-teal-400 shrink-0"></span>
               <div>
-                <p class="text-xs text-slate-500">Male</p>
+                <p class="text-xs text-slate-500">{{ 'dashboard.male' | translate }}</p>
                 <p class="text-lg font-bold text-slate-800">{{ malePct }}%</p>
               </div>
             </div>
             <div class="flex items-center gap-2">
               <span class="w-3 h-3 rounded-full bg-slate-200 shrink-0"></span>
               <div>
-                <p class="text-xs text-slate-500">Female</p>
+                <p class="text-xs text-slate-500">{{ 'dashboard.female' | translate }}</p>
                 <p class="text-lg font-bold text-slate-800">{{ femalePct }}%</p>
               </div>
             </div>
@@ -296,20 +300,20 @@
       <!-- General Distribution (dynamic from generalDistData) ─────────────── -->
       <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex-1">
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-slate-700">General Distribution</h3>
+          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.generalDistribution' | translate }}</h3>
           <span class="text-[10px] font-medium text-slate-400">2016 – 2024</span>
         </div>
 
         <!-- Legend -->
         <div class="flex gap-3 mb-3 flex-wrap">
           <span class="flex items-center gap-1 text-[10px] text-slate-500">
-            <span class="w-2 h-2 rounded-sm inline-block bg-[#2dd4bf]"></span>Primary
+            <span class="w-2 h-2 rounded-sm inline-block bg-[#2dd4bf]"></span>{{ 'dashboard.primary' | translate }}
           </span>
           <span class="flex items-center gap-1 text-[10px] text-slate-500">
-            <span class="w-2 h-2 rounded-sm inline-block bg-[#99f6e4]"></span>Intermediate
+            <span class="w-2 h-2 rounded-sm inline-block bg-[#99f6e4]"></span>{{ 'dashboard.intermediate' | translate }}
           </span>
           <span class="flex items-center gap-1 text-[10px] text-slate-500">
-            <span class="w-2 h-2 rounded-sm inline-block bg-[#ccfbf1]"></span>Secondary
+            <span class="w-2 h-2 rounded-sm inline-block bg-[#ccfbf1]"></span>{{ 'dashboard.secondary' | translate }}
           </span>
         </div>
 
@@ -318,7 +322,7 @@
         <div class="flex flex-col gap-3">
           @for (label of generalDistData.labels; track $index) {
           <div class="flex items-center gap-2">
-            <span class="text-[11px] text-slate-500 w-20 shrink-0 text-right">{{ label }}</span>
+            <span class="text-[11px] text-slate-500 w-20 shrink-0 text-right">{{ label|translate }}</span>
             <div class="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
               <div class="h-full rounded-full transition-all duration-700"
                 [style.width]="generalDistData.datasets[0].data[$index] + '%'"

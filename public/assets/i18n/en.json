@@ -1,7 +1,13 @@
 {
+  "header": {
+    "title": "Education Statistics Explorer",
+    "subtitle": "Saudi General Education Analytics · 2016 – 2024",
+    "selectYear": "Select Year",
+    "selectRegion": "Select Region"
+  },
+
   "regions": {
-    "group": "Regions",
-    "baaha": "Al Baha",
+    "baaha": "Al Bahah",
     "jouf": "Al Jouf",
     "northern_border": "Northern Borders",
     "riyadh": "Riyadh",
@@ -14,5 +20,33 @@
     "asir": "Asir",
     "makkah": "Makkah",
     "najran": "Najran"
+  },
+  "dashboard": {
+    "studentTrends": "Student Trends Over Time",
+    "genderTrend": "Gender Trend",
+    "male": "Male",
+    "female": "Female",
+    "regionalEnrollment": "Regional Enrollment Breakdown",
+    "regionGrowthTrend": "Region Growth Trend",
+    "educationStageDistribution": "Education Stage Distribution",
+    "drillDown": "Drill Down",
+    "drillDescription": "Comparison between the current year and previous year for each education stage",
+    "totalStudents": "Total Students",
+    "previousYear": "Previous Year",
+    "yoyGrowth": "YoY Growth",
+    "stage": "Stage",
+    "current": "Current",
+    "previous": "Previous",
+    "trend": "Trend",
+    "genderDistribution": "Gender Distribution",
+    "generalDistribution": "General Distribution",
+    "primary": "Primary",
+    "intermediate": "Intermediate",
+    "secondary": "Secondary",
+    "growthRate":"Growth Rate",
+    "femaleStudents":"Female Students",
+    "maleStudents":"Male Students",
+    "largestRegion":"Largest Region"
   }
+
 }

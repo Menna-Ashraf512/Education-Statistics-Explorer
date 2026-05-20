@@ -11,6 +11,7 @@ import { takeUntil, switchMap } from 'rxjs/operators';
 import { StudentsService } from './../../services/students-service';
 import { FilterService } from '../../../../core/services/filter-service';
 import { IDrillDown, IDrillStat, IKpiCard, IRegionBar } from '../../interfaces/charts';
+import { TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-charts',
@@ -18,7 +19,7 @@ import { IDrillDown, IDrillStat, IKpiCard, IRegionBar } from '../../interfaces/c
   imports: [
     CommonModule,
     CardModule, ChartModule, ButtonModule,
-    TagModule, DividerModule, ProgressBarModule,
+    TagModule, DividerModule, ProgressBarModule,TranslateModule,
   ],
   templateUrl: './charts.html',
   styleUrls: ['./charts.css'],
@@ -30,9 +31,9 @@ export class Charts implements OnInit, OnDestroy {
   ALL_YEARS = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'] as const;
 
   EDUCATION_STAGES = [
-    { label: 'Primary', arabic: 'المرحلة الإبتدائية', color: '#2dd4bf' },
-    { label: 'Intermediate', arabic: 'المرحلة المتوسطة', color: '#99f6e4' },
-    { label: 'Secondary', arabic: 'المرحلة الثانوية', color: '#ccfbf1' },
+    { label: 'dashboard.primary', arabic: 'المرحلة الإبتدائية', color: '#2dd4bf' },
+    { label: 'dashboard.intermediate', arabic: 'المرحلة المتوسطة', color: '#99f6e4' },
+    { label: 'dashboard.secondary', arabic: 'المرحلة الثانوية', color: '#ccfbf1' },
   ] as const;
 
   REGION_MAP: Record<string, string> = {
@@ -225,24 +226,24 @@ export class Charts implements OnInit, OnDestroy {
 
     this.kpis = [
       {
-        label: 'Total Students', value: this.formatNum(total), sub: subLabel,
+        label: 'dashboard.totalStudents', value: this.formatNum(total), sub: subLabel,
         icon: 'pi pi-graduation-cap', iconBg: 'bg-teal-50', iconColor: 'text-teal-500',
       },
       {
-        label: 'Growth Rate', value: this.calcGrowthRate(), sub: 'since 2016',
+        label: 'dashboard.growthRate', value: this.calcGrowthRate(), sub: 'since 2016',
         icon: 'pi pi-arrow-up-right', iconBg: 'bg-green-50', iconColor: 'text-green-500',
         highlight: true,
       },
       {
-        label: 'Female Students', value: this.formatNum(female), sub: `${this.femalePct}% of total`,
+        label: 'dashboard.femaleStudents', value: this.formatNum(female), sub: `${this.femalePct}% of total`,
         icon: 'pi pi-user', iconBg: 'bg-pink-50', iconColor: 'text-pink-400',
       },
       {
-        label: 'Male Students', value: this.formatNum(male), sub: `${this.malePct}% of total`,
+        label: 'dashboard.maleStudents', value: this.formatNum(male), sub: `${this.malePct}% of total`,
         icon: 'pi pi-user', iconBg: 'bg-blue-50', iconColor: 'text-blue-400',
       },
       {
-        label: 'Largest Region',
+        label: 'dashboard.largestRegion',
         value: largestRegion.name || '—',
         sub: largestRegion.count ? `${this.formatNum(largestRegion.count)} students` : '',
         icon: 'pi pi-map-marker', iconBg: 'bg-cyan-50', iconColor: 'text-cyan-500',

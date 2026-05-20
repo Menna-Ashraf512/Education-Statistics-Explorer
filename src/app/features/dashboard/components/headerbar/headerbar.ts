@@ -55,4 +55,14 @@ this.years = [
       { label: 'regions.najran', value: 'najran' }
     ];
   }
+
+// Method to toggle the language between Arabic and English
+  toggleLanguage() {
+  const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
+
+  this.TranslateService.use(newLang);
+  this.currentLang = newLang;
+
+  localStorage.setItem('lang', newLang);
+}
 }
