@@ -226,7 +226,7 @@ export class Charts implements OnInit, OnDestroy {
 
     this.kpis = [
       {
-        label: 'dashboard.totalStudents', value: this.formatNum(total), sub: subLabel,
+        label: 'dashboard.total_Students', value: this.formatNum(total), sub: subLabel,
         icon: 'pi pi-graduation-cap', iconBg: 'bg-teal-50', iconColor: 'text-teal-500',
       },
       {
@@ -235,15 +235,15 @@ export class Charts implements OnInit, OnDestroy {
         highlight: true,
       },
       {
-        label: 'dashboard.femaleStudents', value: this.formatNum(female), sub: `${this.femalePct}% of total`,
+        label: 'dashboard.female_Students', value: this.formatNum(female), sub: `${this.femalePct}% of total`,
         icon: 'pi pi-user', iconBg: 'bg-pink-50', iconColor: 'text-pink-400',
       },
       {
-        label: 'dashboard.maleStudents', value: this.formatNum(male), sub: `${this.malePct}% of total`,
+        label: 'dashboard.male_Students', value: this.formatNum(male), sub: `${this.malePct}% of total`,
         icon: 'pi pi-user', iconBg: 'bg-blue-50', iconColor: 'text-blue-400',
       },
       {
-        label: 'dashboard.largestRegion',
+        label: 'dashboard.largest_Region',
         value: largestRegion.name || '—',
         sub: largestRegion.count ? `${this.formatNum(largestRegion.count)} students` : '',
         icon: 'pi pi-map-marker', iconBg: 'bg-cyan-50', iconColor: 'text-cyan-500',

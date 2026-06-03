@@ -41,7 +41,7 @@
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-semibold text-slate-700">
-              {{ 'dashboard.studentTrends' | translate }}
+              {{ 'dashboard.student_Trends' | translate }}
             </h3>
           </div>
           <div>
@@ -53,7 +53,7 @@
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-semibold text-slate-700">
-              {{ 'dashboard.genderTrend' | translate }}
+              {{ 'dashboard.gender_Trend' | translate }}
             </h3>
             <div class="flex gap-3">
               <span class="flex items-center gap-1 text-[10px] text-slate-500">
@@ -78,7 +78,7 @@
         <!-- Regional Enrollment Breakdown (dynamic bars) -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.regionalEnrollment' | translate }}</h3>
+            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.regional_Enrollment' | translate }}</h3>
             <div class="flex gap-1">
               <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
                 2016 / 2024
@@ -109,7 +109,7 @@
         <!-- Region Growth Trend -->
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.regionGrowthTrend' | translate }}</h3>
+            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.region_Growth' | translate }}</h3>
             <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
               2016 / 2024
             </span>
@@ -127,7 +127,7 @@
         <!-- Education Stage Distribution -->
         <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-semibold text-slate-700">{{'dashboard.educationStageDistribution'|translate}}</h3>
+            <h3 class="text-sm font-semibold text-slate-700">{{'dashboard.education_Stage'|translate}}</h3>
             <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
               2016 – 2024
             </span>
@@ -142,32 +142,32 @@
 
           <!-- Header -->
           <h3 class="text-sm font-semibold text-slate-700 mb-1">
-            📍 {{ 'dashboard.drillDown' | translate }}: {{ drillDown.regionName }}
+            📍 {{ 'dashboard.drill_Down' | translate }}: {{ drillDown.regionName }}
           </h3>
 
           <p class="text-[10px] text-slate-400 mb-3">
-            {{ 'dashboard.drillDescription' | translate }}
+            {{ 'dashboard.drill_Description' | translate }}
           </p>
 
           <!-- Summary -->
           <div class="grid grid-cols-3 gap-3 mb-4">
 
             <div class="bg-slate-50 rounded-lg p-2">
-              <p class="text-[10px] text-slate-400">{{ 'dashboard.totalStudents' | translate }}</p>
+              <p class="text-[10px] text-slate-400">{{ 'dashboard.total_Students' | translate }}</p>
               <p class="text-base font-bold text-slate-800">
                 {{ formatNum(drillDown.total) }}
               </p>
             </div>
 
             <div class="bg-slate-50 rounded-lg p-2">
-              <p class="text-[10px] text-slate-400">{{ 'dashboard.previousYear' | translate }}</p>
+              <p class="text-[10px] text-slate-400">{{ 'dashboard.previous_Year' | translate }}</p>
               <p class="text-base font-semibold text-slate-600">
                 {{ formatNum(drillDown.previousTotal) }}
               </p>
             </div>
 
             <div class="bg-green-50 rounded-lg p-2">
-              <p class="text-[10px] text-green-600 font-semibold">{{ 'dashboard.yoyGrowth' | translate }}</p>
+              <p class="text-[10px] text-green-600 font-semibold">{{ 'dashboard.year_Growth' | translate }}</p>
               <p class="text-base font-bold text-green-600">
                 {{ drillDown.growthPct }}
               </p>
@@ -256,7 +256,7 @@
       <!-- Gender Distribution ────────────────────────────────────────────── -->
       <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.genderDistribution' | translate }}</h3>
+          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.gender_Distribution' | translate }}</h3>
           <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
             {{ activeYear ? `Year ${this.activeYear}` : '2016 – 2024 All Years' }}
           </span>
@@ -300,7 +300,7 @@
       <!-- General Distribution (dynamic from generalDistData) ─────────────── -->
       <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex-1">
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.generalDistribution' | translate }}</h3>
+          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.general_Distribution' | translate }}</h3>
           <span class="text-[10px] font-medium text-slate-400">2016 – 2024</span>
         </div>
 
