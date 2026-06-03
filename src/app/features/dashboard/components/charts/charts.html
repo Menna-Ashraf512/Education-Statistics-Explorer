@@ -81,7 +81,7 @@
             <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.regional_Enrollment' | translate }}</h3>
             <div class="flex gap-1">
               <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
-                2016 / 2024
+                {{ firstYear }} / {{ lastYear }}
               </span>
             </div>
           </div>
@@ -111,7 +111,7 @@
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.region_Growth' | translate }}</h3>
             <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
-              2016 / 2024
+              {{ firstYear }} / {{ lastYear }}
             </span>
           </div>
           <div>
@@ -129,7 +129,7 @@
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-semibold text-slate-700">{{'dashboard.education_Stage'|translate}}</h3>
             <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
-              2016 – 2024
+              {{ firstYear }} / {{ lastYear }}
             </span>
           </div>
           <div>
@@ -258,7 +258,7 @@
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.gender_Distribution' | translate }}</h3>
           <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
-            {{ activeYear ? `Year ${this.activeYear}` : '2016 – 2024 All Years' }}
+            {{ activeYear ? ('Year ' + activeYear) : (firstYear + ' / ' + lastYear + ' All Years') }}
           </span>
         </div>
 
@@ -301,7 +301,7 @@
       <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex-1">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.general_Distribution' | translate }}</h3>
-          <span class="text-[10px] font-medium text-slate-400">2016 – 2024</span>
+          <span class="text-[10px] font-medium text-slate-400">{{ firstYear }} / {{ lastYear }}</span>
         </div>
 
         <!-- Legend -->

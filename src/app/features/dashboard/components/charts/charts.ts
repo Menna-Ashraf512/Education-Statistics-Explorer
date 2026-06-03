@@ -11,7 +11,7 @@ import { takeUntil, switchMap } from 'rxjs/operators';
 import { StudentsService } from './../../services/students-service';
 import { FilterService } from '../../../../core/services/filter-service';
 import { IDrillDown, IDrillStat, IKpiCard, IRegionBar } from '../../interfaces/charts';
-import { TranslateModule} from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-charts',
@@ -19,7 +19,7 @@ import { TranslateModule} from '@ngx-translate/core';
   imports: [
     CommonModule,
     CardModule, ChartModule, ButtonModule,
-    TagModule, DividerModule, ProgressBarModule,TranslateModule,
+    TagModule, DividerModule, ProgressBarModule, TranslateModule,
   ],
   templateUrl: './charts.html',
   styleUrls: ['./charts.css'],
@@ -28,7 +28,7 @@ export class Charts implements OnInit, OnDestroy {
 
   // ─── Constants ────────────────────────────────────────────────────────────────
 
-  ALL_YEARS = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'] as const;
+  years: string[] = [];
 
   EDUCATION_STAGES = [
     { label: 'dashboard.primary', arabic: 'المرحلة الإبتدائية', color: '#2dd4bf' },
@@ -168,6 +168,7 @@ export class Charts implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getStudents();
+
   }
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -182,12 +183,20 @@ export class Charts implements OnInit, OnDestroy {
         return combineLatest([this.filterService.year$, this.filterService.region$]);
       }),
     ).subscribe(([year, region]) => {
+      this.years = [...new Set(this.rawData.map(item => item['السنة ميلادي']))].sort((a, b) => Number(a) - Number(b));
       this.activeYear = year;
       this.activeRegion = region;
       this.refreshData();
     });
   }
+  // years getters with safety fallback (in case data is empty or malformed)
+  get firstYear(): string {
+    return this.years[0] ?? '';
+  }
 
+  get lastYear(): string {
+    return this.years[this.years.length - 1] ?? '';
+  }
   refreshData(): void {
     this.calculateKPIs();
     this.buildAllCharts();
@@ -280,10 +289,10 @@ export class Charts implements OnInit, OnDestroy {
   }
 
   private buildTrendChart(): void {
-    const totals = this.ALL_YEARS.map(y => this.sumByYear(this.rawData, y));
+    const totals = this.years.map(y => this.sumByYear(this.rawData, y));
 
     this.trendData = {
-      labels: [...this.ALL_YEARS],
+      labels: [...this.years],
       datasets: [{
         label: 'Total', data: totals,
         borderColor: '#2dd4bf', backgroundColor: 'rgba(45,212,191,0.15)',
@@ -294,11 +303,11 @@ export class Charts implements OnInit, OnDestroy {
   }
 
   private buildGenderTrendChart(): void {
-    const maleTrend = this.ALL_YEARS.map(y => this.sumByYearGender(y, 'بنين'));
-    const femaleTrend = this.ALL_YEARS.map(y => this.sumByYearGender(y, 'بنات'));
+    const maleTrend = this.years.map(y => this.sumByYearGender(y, 'بنين'));
+    const femaleTrend = this.years.map(y => this.sumByYearGender(y, 'بنات'));
 
     this.genderTrendData = {
-      labels: [...this.ALL_YEARS],
+      labels: [...this.years],
       datasets: [
         { label: 'Male', data: maleTrend, borderColor: '#93c5fd', backgroundColor: 'rgba(147,197,253,0.1)', tension: 0.4, fill: false, pointRadius: 3 },
         { label: 'Female', data: femaleTrend, borderColor: '#f9a8d4', backgroundColor: 'rgba(249,168,212,0.1)', tension: 0.4, fill: false, pointRadius: 3 },
@@ -309,14 +318,14 @@ export class Charts implements OnInit, OnDestroy {
 
   private buildGrowthTrendChart(): void {
     const topRegion = this.getLargestRegion().name;
-    const growthTotals = this.ALL_YEARS.map(y =>
+    const growthTotals = this.years.map(y =>
       this.rawData
         .filter(i => String(i['السنة ميلادي']) === y && i['المنطقة الإدارية'] === topRegion)
         .reduce((s, i) => s + this.parseNum(i['طلبة']), 0)
     );
 
     this.growthTrendData = {
-      labels: [...this.ALL_YEARS],
+      labels: [...this.years],
       datasets: [{
         label: topRegion, data: growthTotals,
         borderColor: '#2dd4bf', backgroundColor: 'rgba(45,212,191,0.15)',
@@ -329,7 +338,7 @@ export class Charts implements OnInit, OnDestroy {
   private buildEducationStageChart(): void {
     const datasets = this.EDUCATION_STAGES.map(stage => ({
       label: stage.label,
-      data: this.ALL_YEARS.map(y =>
+      data: this.years.map(y =>
         this.rawData
           .filter(i => String(i['السنة ميلادي']) === y && i['المرحلة'] === stage.arabic)
           .reduce((s, i) => s + this.parseNum(i['طلبة']), 0)
@@ -338,7 +347,7 @@ export class Charts implements OnInit, OnDestroy {
       borderRadius: 2,
     }));
 
-    this.educationStageData = { labels: [...this.ALL_YEARS], datasets };
+    this.educationStageData = { labels: [...this.years], datasets };
     this.educationStageOptions = {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
@@ -392,11 +401,11 @@ export class Charts implements OnInit, OnDestroy {
   private buildDrillDown(): void {
     if (!this.rawData.length) return;
 
-    const lastYear = this.activeYear ?? this.ALL_YEARS[this.ALL_YEARS.length - 1];
-    const lastYearIndex = this.ALL_YEARS.indexOf(lastYear as any);
+    const lastYear = this.activeYear ?? this.years[this.years.length - 1];
+    const lastYearIndex = this.years.indexOf(lastYear as any);
     const prevYear = lastYearIndex > 0
-      ? this.ALL_YEARS[lastYearIndex - 1]
-      : this.ALL_YEARS[0];
+      ? this.years[lastYearIndex - 1]
+      : this.years[0];
 
     const topRegion = this.activeRegion
       ? this.toArabicRegion(this.activeRegion)
