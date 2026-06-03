@@ -186,7 +186,7 @@
           <!-- Rows -->
           <div class="divide-y divide-slate-100">
 
-            @for (d of drillDown.stages; track d.label) {
+            @for (stage of drillDown.stages; track stage.label) {
             <div class="py-2 grid grid-cols-4 gap-2 text-[11px] items-center">
 
               <!-- Stage -->
@@ -194,33 +194,33 @@
                 <span class="w-2 h-2 rounded-full bg-teal-400"></span>
 
                 <span class="truncate">
-                  {{ d.label }}
+                  {{ stage.label }}
                 </span>
 
                 <!-- share -->
                 <span class="text-[10px] text-green-500 font-semibold">
-                  {{ d.pct }}
+                  {{ stage.pct }}
                 </span>
               </div>
 
               <!-- Current -->
               <div class="text-center font-semibold text-slate-700">
-                {{ formatNum(d.current) }}
+                {{ formatNum(stage.current) }}
               </div>
 
               <!-- Previous -->
               <div class="text-center text-slate-500">
-                {{ formatNum(d.previous) }}
+                {{ formatNum(stage.previous) }}
               </div>
 
               <!-- Trend -->
               <div class="text-right">
                 <div class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                  [ngClass]="d.trend.startsWith('▲')
+                  [ngClass]="stage.trend.startsWith('▲')
             ? 'bg-green-50 text-green-600'
             : 'bg-red-50 text-red-500'">
-                  <span>{{ d.trend.startsWith('▲') ? '▲' : '▼' }}</span>
-                  <span>{{ d.trend.replace('▲','').replace('▼','') }}</span>
+            <span>{{ getTrendIcon(stage.trend) }}</span>
+                  <span>{{ stage.trend.replace('▲','').replace('▼','') }}</span>
                 </div>
               </div>
 

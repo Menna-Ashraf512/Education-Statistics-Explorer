@@ -19,12 +19,12 @@ export class Headerbar {
   regions: any;
   currentLang: string = 'ar';
   filterService = inject(FilterService);
-  TranslateService = inject(TranslateService);
+  translateService = inject(TranslateService);
   ngOnInit() {
 
 
     // Subscribe to language change events to update the current language
-    this.TranslateService.onLangChange.subscribe((event) => {
+    this.translateService.onLangChange.subscribe((event) => {
       this.currentLang = event.lang;
     });
 
@@ -60,7 +60,7 @@ this.years = [
   toggleLanguage() {
   const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
 
-  this.TranslateService.use(newLang);
+  this.translateService.use(newLang);
   this.currentLang = newLang;
 
   localStorage.setItem('lang', newLang);

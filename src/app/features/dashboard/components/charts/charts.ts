@@ -197,6 +197,11 @@ export class Charts implements OnInit, OnDestroy {
   get lastYear(): string {
     return this.years[this.years.length - 1] ?? '';
   }
+  
+// get trend icon based on trend string (e.g. "▲5.2%")
+  getTrendIcon(trend: string): string {
+  return trend.startsWith('▲') ? '▲' : '▼';
+}
   refreshData(): void {
     this.calculateKPIs();
     this.buildAllCharts();
