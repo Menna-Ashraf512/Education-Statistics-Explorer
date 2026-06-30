@@ -1,0 +1,342 @@
+<div class="dashboard-wrapper min-h-screen bg-slate-50 p-4 font-sans pt-24">
+
+
+  <!-- ── KPI Row ──────────────────────────────────────────────────────────── -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-4">
+
+    @for (kpi of kpis; track $index) {
+    <div class="kpi-card bg-white rounded-2xl p-4 flex  items-center ps-8 gap-3
+                shadow-sm border border-slate-100">
+
+      <div [class]="'kpi-icon shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ' + kpi.iconBg">
+        <i [class]="kpi.icon + ' text-lg ' + kpi.iconColor"></i>
+      </div>
+
+      <div class="min-w-0">
+        <p class="text-xs text-slate-400 font-medium mb-0.5 truncate">{{ kpi.label |translate}}</p>
+        <p [class]="'text-xl font-bold tracking-tight ' + (kpi.highlight ? 'text-green-500' : 'text-slate-800')">
+          {{ kpi.value }}
+        </p>
+        <p class="text-[10px] text-slate-400 mt-0.5">{{ kpi.sub }}</p>
+      </div>
+
+    </div>
+    }
+
+  </div>
+
+
+  <!-- ── Main Grid ─────────────────────────────────────────────────────────── -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+
+
+    <!-- ════ LEFT COLUMN (span-2) ════════════════════════════════════════════ -->
+    <div class="lg:col-span-2 flex flex-col gap-3">
+
+
+      <!-- Row 1 · Student Trends + Gender Trends ─────────────────────────── -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+        <!-- Student Trends Over Time -->
+        <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-700">
+              {{ 'dashboard.student_Trends' | translate }}
+            </h3>
+          </div>
+          <div>
+            <p-chart type="line" [data]="trendData" [options]="trendOptions" />
+          </div>
+        </div>
+
+        <!-- Gender Trend -->
+        <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-700">
+              {{ 'dashboard.gender_Trend' | translate }}
+            </h3>
+            <div class="flex gap-3">
+              <span class="flex items-center gap-1 text-[10px] text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-blue-300 inline-block"></span>{{ 'dashboard.male' | translate }}
+              </span>
+              <span class="flex items-center gap-1 text-[10px] text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-pink-300 inline-block"></span>{{ 'dashboard.female' | translate }}
+              </span>
+            </div>
+          </div>
+          <div>
+            <p-chart type="line" [data]="genderTrendData" [options]="genderTrendOptions" />
+          </div>
+        </div>
+
+      </div><!-- /Row 1 -->
+
+
+      <!-- Row 2 · Regional Breakdown + Region Growth Trend ──────────────── -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+        <!-- Regional Enrollment Breakdown (dynamic bars) -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.regional_Enrollment' | translate }}</h3>
+            <div class="flex gap-1">
+              <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
+                {{ firstYear }} / {{ lastYear }}
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            @for (r of regions; track r.name) {
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-slate-500 w-28 truncate shrink-0 text-right">
+                {{ r.name }}
+              </span>
+              <div class="flex-1 bg-slate-100 rounded-full h-5 relative overflow-hidden">
+                <div
+                  class="region_bar h-full rounded-full flex items-center justify-end pr-2 transition-all duration-700"
+                  [style.width]="getBarWidth(r.value) + '%'">
+                  <span class="text-[10px] font-semibold text-teal-800 whitespace-nowrap">
+                    {{ r.value }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- Region Growth Trend -->
+        <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.region_Growth' | translate }}</h3>
+            <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
+              {{ firstYear }} / {{ lastYear }}
+            </span>
+          </div>
+          <div>
+            <p-chart type="line" [data]="growthTrendData" [options]="growthTrendOptions" />
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Row 3 · Education Stage Distribution + Drill Down ─────────────── -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+        <!-- Education Stage Distribution -->
+        <div class="chart-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-700">{{'dashboard.education_Stage'|translate}}</h3>
+            <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
+              {{ firstYear }} / {{ lastYear }}
+            </span>
+          </div>
+          <div>
+            <p-chart type="bar" [data]="educationStageData" [options]="educationStageOptions" />
+          </div>
+        </div>
+
+        <!-- Drill Down: Top Region ─────────────────────────────────────── -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+
+          <!-- Header -->
+          <h3 class="text-sm font-semibold text-slate-700 mb-1">
+            📍 {{ 'dashboard.drill_Down' | translate }}: {{ drillDown.regionName }}
+          </h3>
+
+          <p class="text-[10px] text-slate-400 mb-3">
+            {{ 'dashboard.drill_Description' | translate }}
+          </p>
+
+          <!-- Summary -->
+          <div class="grid grid-cols-3 gap-3 mb-4">
+
+            <div class="bg-slate-50 rounded-lg p-2">
+              <p class="text-[10px] text-slate-400">{{ 'dashboard.total_Students' | translate }}</p>
+              <p class="text-base font-bold text-slate-800">
+                {{ formatNum(drillDown.total) }}
+              </p>
+            </div>
+
+            <div class="bg-slate-50 rounded-lg p-2">
+              <p class="text-[10px] text-slate-400">{{ 'dashboard.previous_Year' | translate }}</p>
+              <p class="text-base font-semibold text-slate-600">
+                {{ formatNum(drillDown.previousTotal) }}
+              </p>
+            </div>
+
+            <div class="bg-green-50 rounded-lg p-2">
+              <p class="text-[10px] text-green-600 font-semibold">{{ 'dashboard.year_Growth' | translate }}</p>
+              <p class="text-base font-bold text-green-600">
+                {{ drillDown.growthPct }}
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Table header (clarity layer) -->
+          <div class="grid grid-cols-4 text-[10px] text-slate-400 mb-1 px-1">
+            <div>{{ 'dashboard.stage' | translate }}</div>
+            <div class="text-center">{{ 'dashboard.current' | translate }}</div>
+            <div class="text-center">{{ 'dashboard.previous' | translate }}</div>
+            <div class="text-right">{{ 'dashboard.trend' | translate }}</div>
+          </div>
+
+          <!-- Rows -->
+          <div class="divide-y divide-slate-100">
+
+            @for (stage of drillDown.stages; track stage.label) {
+            <div class="py-2 grid grid-cols-4 gap-2 text-[11px] items-center">
+
+              <!-- Stage -->
+              <div class="font-medium text-slate-700 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+
+                <span class="truncate">
+                  {{ stage.label |translate}}
+                </span>
+
+                <!-- share -->
+                <span class="text-[10px] text-green-500 font-semibold">
+                  {{ stage.pct }}
+                </span>
+              </div>
+
+              <!-- Current -->
+              <div class="text-center font-semibold text-slate-700">
+                {{ formatNum(stage.current) }}
+              </div>
+
+              <!-- Previous -->
+              <div class="text-center text-slate-500">
+                {{ formatNum(stage.previous) }}
+              </div>
+
+              <!-- Trend -->
+              <div class="text-right">
+                <div class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                  [ngClass]="stage.trend.startsWith('▲')
+            ? 'bg-green-50 text-green-600'
+            : 'bg-red-50 text-red-500'">
+            <span>{{ getTrendIcon(stage.trend) }}</span>
+                  <span>{{ stage.trend.replace('▲','').replace('▼','') }}</span>
+                </div>
+              </div>
+
+            </div>
+            }
+
+          </div>
+
+        </div>
+      </div>
+
+
+    </div><!-- /LEFT COLUMN -->
+
+
+    <!-- ════ RIGHT COLUMN ════════════════════════════════════════════════════ -->
+    <div class="flex flex-col gap-3">
+
+
+      <!-- Insights & Highlights ─────────────────────────────────────────── -->
+      @for (insight of insights(); track insight.text) {
+      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" [ngClass]="insight.bgColor">
+            <i [class]="insight.icon + ' text-sm ' + insight.iconColor"></i>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">{{ insight.text }}</p>
+        </div>
+      </div>
+      }
+
+
+      <!-- Gender Distribution ────────────────────────────────────────────── -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.gender_Distribution' | translate }}</h3>
+          <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
+            {{ activeYear ? ('Year ' + activeYear) : (firstYear + ' / ' + lastYear + ' All Years') }}
+          </span>
+        </div>
+
+        <div class="flex items-center justify-center gap-4">
+
+          <!-- Doughnut -->
+          <div class="doughnut">
+            <p-chart type="doughnut" [data]="genderDoughnutData" [options]="genderDoughnutOptions" [width]="'130px'"
+              [height]="'130px'" class="w-full h-full" />
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-[10px] text-slate-400">
+                {{ activeYear ? `Year ${activeYear}` : 'All Years' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-teal-400 shrink-0"></span>
+              <div>
+                <p class="text-xs text-slate-500">{{ 'dashboard.male' | translate }}</p>
+                <p class="text-lg font-bold text-slate-800">{{ malePct }}%</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-slate-200 shrink-0"></span>
+              <div>
+                <p class="text-xs text-slate-500">{{ 'dashboard.female' | translate }}</p>
+                <p class="text-lg font-bold text-slate-800">{{ femalePct }}%</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- General Distribution (dynamic from generalDistData) ─────────────── -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex-1">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.general_Distribution' | translate }}</h3>
+          <span class="text-[10px] font-medium text-slate-400">{{ firstYear }} / {{ lastYear }}</span>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex gap-3 mb-3 flex-wrap">
+          <span class="flex items-center gap-1 text-[10px] text-slate-500">
+            <span class="w-2 h-2 rounded-sm inline-block bg-[#2dd4bf]"></span>{{ 'dashboard.primary' | translate }}
+          </span>
+          <span class="flex items-center gap-1 text-[10px] text-slate-500">
+            <span class="w-2 h-2 rounded-sm inline-block bg-[#99f6e4]"></span>{{ 'dashboard.intermediate' | translate }}
+          </span>
+          <span class="flex items-center gap-1 text-[10px] text-slate-500">
+            <span class="w-2 h-2 rounded-sm inline-block bg-[#ccfbf1]"></span>{{ 'dashboard.secondary' | translate }}
+          </span>
+        </div>
+
+        <!-- Dynamic bars from generalDistData -->
+        @if (generalDistData) {
+        <div class="flex flex-col gap-3">
+          @for (label of generalDistData.labels; track $index) {
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] text-slate-500 w-20 shrink-0 text-right">{{ label|translate }}</span>
+            <div class="flex-1 bg-slate-100 rounded-full h-4 overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-700"
+                [style.width]="generalDistData.datasets[0].data[$index] + '%'"
+                [style.background]="generalDistData.datasets[0].backgroundColor[$index]">
+              </div>
+            </div>
+            <span class="text-[11px] font-semibold text-slate-600 w-8">
+              {{ generalDistData.datasets[0].data[$index] }}%
+            </span>
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

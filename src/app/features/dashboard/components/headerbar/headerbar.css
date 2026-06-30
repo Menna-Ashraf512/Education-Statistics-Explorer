@@ -1,0 +1,3 @@
+::ng-deep .p-cascadeselect-panel {
+  z-index: 9999 !important;
+}
