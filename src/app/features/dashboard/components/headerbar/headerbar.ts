@@ -15,8 +15,8 @@ import { ThemeService } from '../../../../core/services/theme-service';
 })
 export class Headerbar {
   years: string[] = [];
-  selectedYear!: string;
-  selectedRegion!: { labelKey: string; value: string };
+  selectedYear: string | null = null;
+  selectedRegion: { label: string; value: string } | null = null;
   regions: any;
   currentLang: string = 'ar';
   filterService = inject(FilterService);

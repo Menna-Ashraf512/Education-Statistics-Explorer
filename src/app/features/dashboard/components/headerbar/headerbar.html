@@ -43,7 +43,8 @@
 
     <!-- Region Select -->
     <p-cascadeselect [(ngModel)]="selectedRegion" [options]="regions" optionLabel="label"
-      [placeholder]="'header.selectRegion' | translate" (ngModelChange)="filterService.setRegion($event.value)"
+      [placeholder]="'header.selectRegion' | translate"
+      (ngModelChange)="filterService.setRegion($event?.value ?? null)"
       class="w-44 h-9  border-slate-200 rounded-lg text-sm">
 
       <!-- Dropdown Options -->
