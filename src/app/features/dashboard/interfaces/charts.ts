@@ -2,6 +2,7 @@ export interface IKpiCard {
   label: string;
   value: string;
   sub: string;
+  subParams?: Record<string, string | number>;
   icon: string;
   iconBg: string;
   iconColor: string;

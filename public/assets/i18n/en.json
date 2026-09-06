@@ -3,7 +3,9 @@
     "title": "Education Statistics Explorer",
     "subtitle": "Saudi General Education Analytics · 2016 – 2024",
     "selectYear": "Select Year",
-    "selectRegion": "Select Region"
+    "selectRegion": "Select Region",
+    "darkMode": "Switch to dark mode",
+    "lightMode": "Switch to light mode"
   },
 
   "regions": {
@@ -46,7 +48,17 @@
     "growthRate":"Growth Rate",
     "female_Students":"Female Students",
     "male_Students":"Male Students",
-    "largest_Region":"Largest Region"
+    "largest_Region":"Largest Region",
+    "year": "Year {{year}}",
+    "allYears": "All Years",
+    "yearRangeAll": "{{first}} / {{last}} · All Years",
+    "sinceYear": "Since {{year}}",
+    "percentOfTotal": "{{percentage}} of total",
+    "studentsCount": "{{count}} students",
+    "insightTopRegion": "{{region}} had the highest student count{{yearSuffix}} with {{count}} students.",
+    "insightTopStage": "{{stage}} is the largest education stage at {{percentage}} of total students.",
+    "insightFastestGrowth": "{{region}} recorded the fastest student growth across all years ({{growth}}).",
+    "insightPrivateSector": "Private sector accounts for {{percentage}} of total students in {{year}}."
   }
 
 }

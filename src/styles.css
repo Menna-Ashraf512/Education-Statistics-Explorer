@@ -1,3 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+:root {
+	--app-bg: #f8fafc;
+	--app-surface: #ffffff;
+	--app-surface-muted: #f1f5f9;
+	--app-border: #e2e8f0;
+	--app-text: #1e293b;
+	--app-text-muted: #64748b;
+	--app-control-bg: #f1f5f9;
+	--app-control-hover: #e2e8f0;
+	--app-control-text: #334155;
+	--app-accent: #0f766e;
+	--app-accent-hover: #115e59;
+}
+
+html,
+body {
+	background: var(--app-bg);
+	color: var(--app-text);
+	transition: background-color 180ms ease, color 180ms ease;
+}
+
+html.dark {
+	--app-bg: #0f172a;
+	--app-surface: #1e293b;
+	--app-surface-muted: #273449;
+	--app-border: #334155;
+	--app-text: #e2e8f0;
+	--app-text-muted: #94a3b8;
+	--app-control-bg: #273449;
+	--app-control-hover: #334155;
+	--app-control-text: #e2e8f0;
+	--app-accent: #0f766e;
+	--app-accent-hover: #115e59;
+}
+
+.dark .bg-white { background-color: var(--app-surface) !important; }
+.dark .bg-slate-50 { background-color: var(--app-bg) !important; }
+.dark .bg-slate-100 { background-color: var(--app-surface-muted) !important; }
+.dark .border-slate-100,
+.dark .border-slate-200 { border-color: var(--app-border) !important; }
+.dark .text-slate-800,
+.dark .text-slate-700,
+.dark .text-slate-600 { color: var(--app-text) !important; }
+.dark .text-slate-500,
+.dark .text-slate-400 { color: var(--app-text-muted) !important; }
+.dark .divide-slate-100 > :not(:last-child) { border-color: var(--app-border) !important; }
+
+.dark .p-cascadeselect,
+.dark .p-cascadeselect-overlay,
+.dark .p-cascadeselect-list,
+.dark .p-cascadeselect-list-container,
+.dark .p-cascadeselect-item-list {
+	background: var(--app-surface) !important;
+	border-color: var(--app-border) !important;
+	color: var(--app-text) !important;
+}
+
+.dark .p-cascadeselect-label,
+.dark .p-cascadeselect-placeholder,
+.dark .p-cascadeselect-trigger,
+.dark .p-cascadeselect-option,
+.dark .p-cascadeselect-item-content,
+.dark .p-cascadeselect-item-text {
+	color: var(--app-text) !important;
+}
+
+.dark .p-cascadeselect-option:not(.p-disabled):hover,
+.dark .p-cascadeselect-option.p-focus {
+	background: var(--app-surface-muted) !important;
+}

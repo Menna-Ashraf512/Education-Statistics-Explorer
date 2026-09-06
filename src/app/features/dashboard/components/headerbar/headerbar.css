@@ -1,3 +1,31 @@
 ::ng-deep .p-cascadeselect-panel {
   z-index: 9999 !important;
 }
+
+:host {
+  display: block;
+}
+
+.theme-toggle,
+.language-toggle {
+  border: 0;
+}
+
+.theme-toggle {
+  background: var(--app-control-bg);
+  color: var(--app-control-text);
+}
+
+.theme-toggle:hover {
+  background: var(--app-control-hover);
+}
+
+.language-toggle {
+  background: var(--app-accent);
+  color: #ffffff;
+}
+
+.language-toggle:hover {
+  background: var(--app-accent-hover);
+  border: 0;
+}
