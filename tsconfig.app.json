@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "types": [
       "node"
-      
+
     ]
   },
   "include": [
