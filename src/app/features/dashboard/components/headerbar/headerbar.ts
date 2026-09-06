@@ -1,10 +1,11 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { FilterService } from '../../../../core/services/filter-service';
+import { ThemeService } from '../../../../core/services/theme-service';
 
 @Component({
   selector: 'app-headerbar',
@@ -20,6 +21,7 @@ export class Headerbar {
   currentLang: string = 'ar';
   filterService = inject(FilterService);
   translateService = inject(TranslateService);
+  themeService: ThemeService = inject(ThemeService);
   ngOnInit() {
 
 

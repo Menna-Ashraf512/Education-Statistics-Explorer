@@ -3,7 +3,9 @@
     "title": "مستكشف إحصائيات التعليم",
     "subtitle": "تحليلات التعليم العام في السعودية · ٢٠١٦ – ٢٠٢٤",
     "selectYear": "اختر السنة",
-    "selectRegion": "اختر المنطقة"
+    "selectRegion": "اختر المنطقة",
+    "darkMode": "تفعيل الوضع الداكن",
+    "lightMode": "تفعيل الوضع الفاتح"
   },
 
   "regions": {
@@ -46,7 +48,17 @@
     "growthRate": "معدل النمو",
     "female_Students": "الطالبات",
     "male_Students": "الطلاب",
-    "largest_Region": "أكبر منطقة"
+    "largest_Region": "أكبر منطقة",
+    "year": "السنة {{year}}",
+    "allYears": "كل السنوات",
+    "yearRangeAll": "{{first}} / {{last}} · كل السنوات",
+    "sinceYear": "منذ {{year}}",
+    "percentOfTotal": "{{percentage}} من الإجمالي",
+    "studentsCount": "{{count}} طالبًا",
+    "insightTopRegion": "سجلت {{region}} أعلى عدد من الطلاب{{yearSuffix}} بإجمالي {{count}} طالب.",
+    "insightTopStage": "تُعد {{stage}} أكبر مرحلة تعليمية بنسبة {{percentage}} من إجمالي الطلاب.",
+    "insightFastestGrowth": "سجلت {{region}} أسرع نمو في أعداد الطلاب عبر جميع السنوات ({{growth}}).",
+    "insightPrivateSector": "يمثل القطاع الخاص {{percentage}} من إجمالي الطلاب في عام {{year}}."
   }
 
 }

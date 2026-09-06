@@ -29,13 +29,22 @@
     <!-- Year Select -->
     <p-cascadeselect [(ngModel)]="selectedYear" [options]="years" [placeholder]="'header.selectYear' | translate"
       (ngModelChange)="filterService.setYear($event)"
-      class="w-40 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
+      class="w-40 h-9  border-slate-200 rounded-lg text-sm">
+      <ng-template let-option pTemplate="option">
+        {{ option === 'All' ? ('dashboard.allYears' | translate) : option }}
+      </ng-template>
+
+      <ng-template let-selected pTemplate="value">
+        {{ selected
+          ? (selected === 'All' ? ('dashboard.allYears' | translate) : selected)
+          : ('header.selectYear' | translate) }}
+      </ng-template>
     </p-cascadeselect>
 
     <!-- Region Select -->
     <p-cascadeselect [(ngModel)]="selectedRegion" [options]="regions" optionLabel="label"
       [placeholder]="'header.selectRegion' | translate" (ngModelChange)="filterService.setRegion($event.value)"
-      class="w-44 h-9 bg-slate-50 border-slate-200 text-slate-500 rounded-lg text-sm">
+      class="w-44 h-9  border-slate-200 rounded-lg text-sm">
 
       <!-- Dropdown Options -->
       <ng-template let-option pTemplate="option">
@@ -58,9 +67,19 @@
 
     </p-cascadeselect>
 
+    <!-- Dark Mode Toggle -->
+    <button pButton type="button" (click)="themeService.toggle()"
+      [attr.aria-label]="(themeService.isDark() ? 'header.lightMode' : 'header.darkMode') | translate"
+      [attr.title]="(themeService.isDark() ? 'header.lightMode' : 'header.darkMode') | translate"
+      class="theme-toggle h-9 w-9 rounded-lg text-sm font-medium transition">
+      <i [class]="themeService.isDark() ? 'pi pi-sun' : 'pi pi-moon'" aria-hidden="true"></i>
+      <span class="sr-only">{{ (themeService.isDark() ? 'header.lightMode' : 'header.darkMode') | translate }}</span>
+    </button>
+
     <!-- Language Toggle -->
     <button pButton type="button" (click)="toggleLanguage()"
-      class="h-9 px-4 rounded-lg bg-slate-800 text-white text-sm font-medium hover:bg-slate-700 transition">
+      class="language-toggle h-9 px-4 rounded-lg text-sm font-medium transition flex items-center gap-2">
+      <i class="pi pi-language" aria-hidden="true"></i>
 
       {{ currentLang === 'ar' ? 'EN' : 'ع' }}
 

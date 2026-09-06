@@ -11,7 +11,7 @@ import { takeUntil, switchMap } from 'rxjs/operators';
 import { StudentsService } from './../../services/students-service';
 import { FilterService } from '../../../../core/services/filter-service';
 import { IDrillDown, IDrillStat, IKpiCard, IRegionBar } from '../../interfaces/charts';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-charts',
@@ -54,6 +54,7 @@ export class Charts implements OnInit, OnDestroy {
   // ── Services ──────────────────────────────────────────────
   private readonly studentsService = inject(StudentsService);
   private readonly filterService = inject(FilterService);
+  private readonly translateService = inject(TranslateService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly destroy$ = new Subject<void>();
 
@@ -94,7 +95,13 @@ export class Charts implements OnInit, OnDestroy {
     { icon: 'pi pi-arrow-up', iconColor: 'text-green-500', bgColor: 'bg-green-50' },
   ];
 
-  insights = signal<Array<{ icon: string; iconColor: string; bgColor: string; text: string }>>([]);
+  insights = signal<Array<{
+    icon: string;
+    iconColor: string;
+    bgColor: string;
+    text: string;
+    params: Record<string, string | number>;
+  }>>([]);
 
   computeInsights(year: string | null): void {
     const filtered = year
@@ -122,8 +129,8 @@ export class Charts implements OnInit, OnDestroy {
       ? ((topStage[1] / totalStudents) * 100).toFixed(1)
       : '0';
 
-    // Insight 4: Fastest growth region (all years) OR Private sector share (for specific year)
-    let insight4: string;
+    // Insight 4: Fastest growth region (all years) OR private sector share for a selected year.
+    let insight4: { key: string; params: Record<string, string | number> };
     if (!year) {
       const byRegionYear: Record<string, Record<string, number>> = {};
       this.rawData.forEach(r => {
@@ -142,7 +149,13 @@ export class Charts implements OnInit, OnDestroy {
         const growth = first ? ((last - first) / first) * 100 : 0;
         if (growth > maxGrowth) { maxGrowth = growth; fastestRegion = reg; }
       });
-      insight4 = `${fastestRegion} recorded the fastest student growth across all years (+${maxGrowth.toFixed(1)}%).`;
+      insight4 = {
+        key: 'dashboard.insightFastestGrowth',
+        params: {
+          region: this.translateService.instant(this.regionTranslationKey(fastestRegion)),
+          growth: `+${maxGrowth.toFixed(1)}%`,
+        },
+      };
     } else {
       const privateStudents = filtered
         .filter(r => r['القطاع'] === 'خاص')
@@ -150,17 +163,33 @@ export class Charts implements OnInit, OnDestroy {
       const privatePct = totalStudents
         ? ((privateStudents / totalStudents) * 100).toFixed(1)
         : '0';
-      insight4 = `Private sector accounts for ${privatePct}% of total students in ${year}.`;
+      insight4 = {
+        key: 'dashboard.insightPrivateSector',
+        params: { percentage: `${privatePct}%`, year },
+      };
     }
 
-    const texts = [
-      `${topRegion[0]} had the highest student count${year ? ` in ${year}` : ''} with ${topRegion[1].toLocaleString()} students.`,
-      `${topStage[0]} is the largest education stage at ${stagePct}% of total students.`,
+    const texts: Array<{ key: string; params: Record<string, string | number> }> = [
+      {
+        key: 'dashboard.insightTopRegion',
+        params: {
+          region: this.translateService.instant(this.regionTranslationKey(topRegion[0])),
+          yearSuffix: year ? ` in ${year}` : '',
+          count: topRegion[1].toLocaleString(),
+        },
+      },
+      {
+        key: 'dashboard.insightTopStage',
+        params: {
+          stage: this.translateService.instant(this.stageTranslationKey(topStage[0])),
+          percentage: `${stagePct}%`,
+        },
+      },
       insight4,
     ];
 
     this.insights.set(
-      texts.map((text, i) => ({ ...this.iconStyles[i], text }))
+      texts.map((text, i) => ({ ...this.iconStyles[i], text: text.key, params: text.params }))
     );
   }
 
@@ -168,6 +197,11 @@ export class Charts implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getStudents();
+    this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.buildAllCharts();
+      this.computeInsights(this.activeYear);
+      this.cdr.detectChanges();
+    });
 
   }
   ngOnDestroy(): void {
@@ -197,11 +231,16 @@ export class Charts implements OnInit, OnDestroy {
   get lastYear(): string {
     return this.years[this.years.length - 1] ?? '';
   }
-  
+
 // get trend icon based on trend string (e.g. "▲5.2%")
   getTrendIcon(trend: string): string {
   return trend.startsWith('▲') ? '▲' : '▼';
 }
+
+  getRegionLabel(region: string): string {
+    return region ? this.translateService.instant(this.regionTranslationKey(region)) : '';
+  }
+
   refreshData(): void {
     this.calculateKPIs();
     this.buildAllCharts();
@@ -236,37 +275,49 @@ export class Charts implements OnInit, OnDestroy {
     this.totalStudents = total;
 
     const largestRegion = this.getLargestRegion();
-    const subLabel = this.activeYear ? `Year ${this.activeYear}` : '2016 – 2024  All Years';
+    const subLabel = this.activeYear ? 'dashboard.year' : 'dashboard.yearRangeAll';
+    const subParams: Record<string, string | number> = this.activeYear
+      ? { year: this.activeYear }
+      : { first: this.firstYear, last: this.lastYear };
 
     this.kpis = [
       {
-        label: 'dashboard.total_Students', value: this.formatNum(total), sub: subLabel,
+        label: 'dashboard.total_Students', value: this.formatNum(total), sub: subLabel, subParams,
         icon: 'pi pi-graduation-cap', iconBg: 'bg-teal-50', iconColor: 'text-teal-500',
       },
       {
-        label: 'dashboard.growthRate', value: this.calcGrowthRate(), sub: 'since 2016',
+        label: 'dashboard.growthRate', value: this.calcGrowthRate(), sub: 'dashboard.sinceYear',
+        subParams: { year: this.firstYear },
         icon: 'pi pi-arrow-up-right', iconBg: 'bg-green-50', iconColor: 'text-green-500',
         highlight: true,
       },
       {
-        label: 'dashboard.female_Students', value: this.formatNum(female), sub: `${this.femalePct}% of total`,
+        label: 'dashboard.female_Students', value: this.formatNum(female), sub: 'dashboard.percentOfTotal',
+        subParams: { percentage: `${this.femalePct}%` },
         icon: 'pi pi-user', iconBg: 'bg-pink-50', iconColor: 'text-pink-400',
       },
       {
-        label: 'dashboard.male_Students', value: this.formatNum(male), sub: `${this.malePct}% of total`,
+        label: 'dashboard.male_Students', value: this.formatNum(male), sub: 'dashboard.percentOfTotal',
+        subParams: { percentage: `${this.malePct}%` },
         icon: 'pi pi-user', iconBg: 'bg-blue-50', iconColor: 'text-blue-400',
       },
       {
         label: 'dashboard.largest_Region',
-        value: largestRegion.name || '—',
-        sub: largestRegion.count ? `${this.formatNum(largestRegion.count)} students` : '',
+        value: largestRegion.name
+          ? this.translateService.instant(this.regionTranslationKey(largestRegion.name))
+          : '—',
+        sub: largestRegion.count ? 'dashboard.studentsCount' : '',
+        subParams: largestRegion.count ? { count: this.formatNum(largestRegion.count) } : undefined,
         icon: 'pi pi-map-marker', iconBg: 'bg-cyan-50', iconColor: 'text-cyan-500',
       },
     ];
 
     // Gender doughnut data lives here (depends on malePct / femalePct)
     this.genderDoughnutData = {
-      labels: ['Male', 'Female'],
+      labels: [
+        this.translateService.instant('dashboard.male'),
+        this.translateService.instant('dashboard.female'),
+      ],
       datasets: [{
         data: [this.malePct, this.femalePct],
         backgroundColor: ['#2dd4bf', '#e2e8f0'],
@@ -299,7 +350,7 @@ export class Charts implements OnInit, OnDestroy {
     this.trendData = {
       labels: [...this.years],
       datasets: [{
-        label: 'Total', data: totals,
+        label: this.translateService.instant('dashboard.total_Students'), data: totals,
         borderColor: '#2dd4bf', backgroundColor: 'rgba(45,212,191,0.15)',
         tension: 0.4, fill: true, pointRadius: 4, pointBackgroundColor: '#2dd4bf',
       }],
@@ -314,11 +365,11 @@ export class Charts implements OnInit, OnDestroy {
     this.genderTrendData = {
       labels: [...this.years],
       datasets: [
-        { label: 'Male', data: maleTrend, borderColor: '#93c5fd', backgroundColor: 'rgba(147,197,253,0.1)', tension: 0.4, fill: false, pointRadius: 3 },
-        { label: 'Female', data: femaleTrend, borderColor: '#f9a8d4', backgroundColor: 'rgba(249,168,212,0.1)', tension: 0.4, fill: false, pointRadius: 3 },
+        { label: this.translateService.instant('dashboard.male'), data: maleTrend, borderColor: '#93c5fd', backgroundColor: 'rgba(147,197,253,0.1)', tension: 0.4, fill: false, pointRadius: 3 },
+        { label: this.translateService.instant('dashboard.female'), data: femaleTrend, borderColor: '#f9a8d4', backgroundColor: 'rgba(249,168,212,0.1)', tension: 0.4, fill: false, pointRadius: 3 },
       ],
     };
-    this.genderTrendOptions = this.makeLineOptions(true);
+    this.genderTrendOptions = this.makeLineOptions(false);
   }
 
   private buildGrowthTrendChart(): void {
@@ -332,7 +383,7 @@ export class Charts implements OnInit, OnDestroy {
     this.growthTrendData = {
       labels: [...this.years],
       datasets: [{
-        label: topRegion, data: growthTotals,
+        label: topRegion ? this.translateService.instant(this.regionTranslationKey(topRegion)) : '', data: growthTotals,
         borderColor: '#2dd4bf', backgroundColor: 'rgba(45,212,191,0.15)',
         tension: 0.4, fill: true, pointRadius: 3,
       }],
@@ -342,7 +393,7 @@ export class Charts implements OnInit, OnDestroy {
 
   private buildEducationStageChart(): void {
     const datasets = this.EDUCATION_STAGES.map(stage => ({
-      label: stage.label,
+      label: this.translateService.instant(stage.label),
       data: this.years.map(y =>
         this.rawData
           .filter(i => String(i['السنة ميلادي']) === y && i['المرحلة'] === stage.arabic)
@@ -373,9 +424,9 @@ export class Charts implements OnInit, OnDestroy {
     });
 
     this.generalDistData = {
-      labels: stagePcts.map(s => s.label),
+      labels: stagePcts.map(s => this.translateService.instant(s.label)),
       datasets: [{
-        label: 'Distribution',
+        label: this.translateService.instant('dashboard.general_Distribution'),
         data: stagePcts.map(s => s.pct),
         backgroundColor: this.EDUCATION_STAGES.map(s => s.color),
         borderRadius: 4,
@@ -397,7 +448,7 @@ export class Charts implements OnInit, OnDestroy {
 
     this.maxRegionValue = sorted[0]?.[1] ?? 1;
     this.regions = sorted.map(([name, count]) => ({
-      name,
+      name: this.regionTranslationKey(name),
       value: count.toLocaleString(),
       color: '#2dd4bf',
     }));
@@ -554,6 +605,15 @@ export class Charts implements OnInit, OnDestroy {
 
   private toArabicRegion(key: string): string {
     return this.REGION_MAP[key] ?? key;
+  }
+
+  private regionTranslationKey(region: string): string {
+    const entry = Object.entries(this.REGION_MAP).find(([, arabicName]) => arabicName === region);
+    return entry ? `regions.${entry[0]}` : region;
+  }
+
+  private stageTranslationKey(stage: string): string {
+    return this.EDUCATION_STAGES.find(item => item.arabic === stage)?.label ?? stage;
   }
 
   // ── Private: Chart Option Factories ──────────────────────
