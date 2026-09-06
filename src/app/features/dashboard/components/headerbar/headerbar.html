@@ -29,7 +29,7 @@
     <!-- Year Select -->
     <p-cascadeselect [(ngModel)]="selectedYear" [options]="years" [placeholder]="'header.selectYear' | translate"
       (ngModelChange)="filterService.setYear($event)"
-      class="w-40 h-9  border-slate-200 rounded-lg text-sm">
+      class="header-select year-select w-40 h-9 border-slate-200 rounded-lg text-sm">
       <ng-template let-option pTemplate="option">
         {{ option === 'All' ? ('dashboard.allYears' | translate) : option }}
       </ng-template>
@@ -45,7 +45,7 @@
     <p-cascadeselect [(ngModel)]="selectedRegion" [options]="regions" optionLabel="label"
       [placeholder]="'header.selectRegion' | translate"
       (ngModelChange)="filterService.setRegion($event?.value ?? null)"
-      class="w-44 h-9  border-slate-200 rounded-lg text-sm">
+      class="header-select region-select w-44 h-9 border-slate-200 rounded-lg text-sm">
 
       <!-- Dropdown Options -->
       <ng-template let-option pTemplate="option">

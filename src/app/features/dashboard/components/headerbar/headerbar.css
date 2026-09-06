@@ -6,6 +6,12 @@
   display: block;
 }
 
+::ng-deep .header-select .p-cascadeselect-label-empty {
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: var(--app-text-muted) !important;
+}
+
 .theme-toggle,
 .language-toggle {
   border: 0;
