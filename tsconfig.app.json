@@ -6,10 +6,11 @@
     "outDir": "./out-tsc/app",
     "rootDir": "./src",
     "module": "ES2022",
+    "moduleResolution": "Bundler",
     "forceConsistentCasingInFileNames": true,
     "types": [
       "node"
-      
+
     ]
   },
   "include": [
