@@ -18,6 +18,9 @@
 
 html,
 body {
+	margin: 0;
+	min-width: 320px;
+	overflow-x: hidden;
 	background: var(--app-bg);
 	color: var(--app-text);
 	transition: background-color 180ms ease, color 180ms ease;

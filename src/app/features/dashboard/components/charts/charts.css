@@ -2,16 +2,36 @@
   display: block;
 }
 .doughnut{
-  width:130px;
-  height:130px;
+  width: clamp(96px, 32vw, 130px);
+  aspect-ratio: 1;
+  height: auto;
   position:relative;
   flex-shrink:0;
+}
+
+.gender-card {
+  min-width: 0;
+}
+
+.gender-content {
+  min-width: 0;
+}
+
+.gender-legend {
+  min-width: 0;
 }
 .region_bar{
   background: linear-gradient(90deg, #99f6e4, #2dd4bf);
 }
 .dashboard-wrapper {
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  padding-top: 6rem;
+  overflow-x: hidden;
+}
+
+.chart-area {
+  height: 220px;
+  min-width: 0;
 }
 
 .kpi-card {
@@ -45,5 +65,43 @@
 ::ng-deep .chart-card canvas {
   position: relative !important;
   z-index: 0 !important;
+}
+
+@media (max-width: 767px) {
+  .dashboard-wrapper {
+    padding: 8.5rem 0.75rem 1rem;
+  }
+
+  .kpi-card {
+    padding-inline: 0.75rem;
+  }
+
+  .chart-area {
+    height: 200px;
+  }
+
+  .doughnut {
+    width: clamp(96px, 30vw, 110px);
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-wrapper {
+    padding-inline: 0.5rem;
+  }
+
+  .chart-area {
+    height: 180px;
+  }
+
+  .gender-content {
+    align-items: flex-start;
+    justify-content: space-around;
+    gap: 3.75rem;
+  }
+
+  .gender-legend {
+    flex: 1;
+  }
 }
 
