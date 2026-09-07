@@ -19,6 +19,7 @@ export class Headerbar {
   selectedRegion: { label: string; value: string } | null = null;
   regions: any;
   currentLang: string = 'ar';
+  isMenuOpen = false;
   filterService = inject(FilterService);
   translateService = inject(TranslateService);
   themeService: ThemeService = inject(ThemeService);
@@ -56,6 +57,10 @@ this.years = [
       { label: 'regions.makkah', value: 'makkah' },
       { label: 'regions.najran', value: 'najran' }
     ];
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
 // Method to toggle the language between Arabic and English

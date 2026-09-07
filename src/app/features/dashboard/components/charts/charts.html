@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper min-h-screen bg-slate-50 p-4 font-sans pt-24">
+  <div class="dashboard-wrapper min-h-screen bg-slate-50 p-4 font-sans">
 
 
   <!-- ── KPI Row ──────────────────────────────────────────────────────────── -->
@@ -44,7 +44,7 @@
               {{ 'dashboard.student_Trends' | translate }}
             </h3>
           </div>
-          <div>
+          <div class="chart-area">
             <p-chart type="line" [data]="trendData" [options]="trendOptions" />
           </div>
         </div>
@@ -64,7 +64,7 @@
               </span>
             </div>
           </div>
-          <div>
+          <div class="chart-area">
             <p-chart type="line" [data]="genderTrendData" [options]="genderTrendOptions" />
           </div>
         </div>
@@ -114,7 +114,7 @@
               {{ firstYear }} / {{ lastYear }}
             </span>
           </div>
-          <div>
+          <div class="chart-area">
             <p-chart type="line" [data]="growthTrendData" [options]="growthTrendOptions" />
           </div>
         </div>
@@ -132,7 +132,7 @@
               {{ firstYear }} / {{ lastYear }}
             </span>
           </div>
-          <div>
+          <div class="chart-area">
             <p-chart type="bar" [data]="educationStageData" [options]="educationStageOptions" />
           </div>
         </div>
@@ -254,7 +254,7 @@
 
 
       <!-- Gender Distribution ────────────────────────────────────────────── -->
-      <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+      <div class="gender-card bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-semibold text-slate-700">{{ 'dashboard.gender_Distribution' | translate }}</h3>
           <span class="text-[10px] font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded">
@@ -262,12 +262,12 @@
           </span>
         </div>
 
-        <div class="flex items-center justify-center gap-4">
+        <div class="gender-content flex items-center justify-center gap-4">
 
           <!-- Doughnut -->
           <div class="doughnut">
             <p-chart type="doughnut" [data]="genderDoughnutData" [options]="genderDoughnutOptions" [width]="'130px'"
-              [height]="'130px'" class="w-full h-full" />
+              [height]="'130px'" class="gender-chart w-full h-full" />
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <span class="text-[10px] text-slate-400">
                 {{ activeYear ? ('dashboard.year' | translate: { year: activeYear }) : ('dashboard.allYears' | translate) }}
@@ -276,7 +276,7 @@
           </div>
 
           <!-- Legend -->
-          <div class="flex flex-col gap-2">
+          <div class="gender-legend flex flex-col gap-2">
             <div class="flex items-center gap-2">
               <span class="w-3 h-3 rounded-full bg-teal-400 shrink-0"></span>
               <div>
